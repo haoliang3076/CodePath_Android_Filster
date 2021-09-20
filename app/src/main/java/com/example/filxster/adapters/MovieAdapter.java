@@ -1,6 +1,7 @@
 package com.example.filxster.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +9,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import com.bumptech.glide.Glide;
+import com.example.filxster.MainActivity;
 import com.example.filxster.R;
 import com.example.filxster.models.Movie;
 
@@ -18,14 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class MovieAdapter {
-
-
-    public void notifyDataSetChanged() {
-    }
-
-    public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
-
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
     Context context;
     List<Movie> movies;
@@ -35,19 +29,24 @@ public class MovieAdapter {
         this.context = context;
         this.movies = movies;
     }
+
+
     @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("MovieAdapter","onCreateViewHolder");
+        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie,parent,false);
         return new ViewHolder(movieView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d("MovieAdapter","onBindViewHolder" + position);
+
         Movie movie = movies.get(position);
 
         holder.bind(movie);
-
     }
 
     @Override
@@ -55,26 +54,30 @@ public class MovieAdapter {
         return movies.size();
     }
 
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView tvTitle;
         TextView tvOverview;
         TextView ivPoster;
 
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
+            //ivPoster = itemView.findViewById(R.id.ivPoster);
             ivPoster = itemView.findViewById(R.id.ivPoster);
-
         }
 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
-            Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
-        }
+
+            //String imageUrl;
+
+            //Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
+
+
         }
     }
 }
